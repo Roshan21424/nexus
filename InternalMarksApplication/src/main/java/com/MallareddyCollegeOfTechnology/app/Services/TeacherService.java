@@ -31,6 +31,21 @@ public class TeacherService {
         return teacherRepository.findById(id).orElse(null);
     }
 
+    public void assignClassTeacherToSection(Long teacherId, Long sectionId) {
+        Teacher teacher = teacherRepository.findById(teacherId)
+                .orElseThrow(() -> new RuntimeException("Teacher not found"));
+
+        Section section = sectionRepository.findById(sectionId)
+                .orElseThrow(() -> new RuntimeException("Section not found"));
+
+        teacher.setClassTeacherOf(section);
+        section.setClassTeacher(teacher);
+
+        sectionRepository.save(section);
+
+    }
+
+
     public Teacher getClassTeacherOfSection(Section.SectionEnum sectionEnum) {
         Section section = sectionRepository.findBySectionEnum(sectionEnum);
         return teacherRepository.findByClassTeacherOf(section);

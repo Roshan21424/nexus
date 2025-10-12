@@ -1,5 +1,6 @@
 package com.MallareddyCollegeOfTechnology.app.Entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 

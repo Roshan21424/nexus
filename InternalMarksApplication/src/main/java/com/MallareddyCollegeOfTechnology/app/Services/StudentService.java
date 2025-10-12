@@ -40,6 +40,22 @@ public class StudentService {
         return studentRepository.findByStudentRole(role);
     }
 
+    public void assignStudentToSection(Long studentId, Long sectionId) {
+
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
+
+        Section section = sectionRepository.findById(sectionId)
+                .orElseThrow(() -> new RuntimeException("Section not found"));
+
+        // Set owning side
+        student.setSection(section);
+
+        // Save only the owning side
+        studentRepository.save(student);
+    }
+
+
     public void deleteStudent(Long id) {
         studentRepository.deleteById(id);
     }

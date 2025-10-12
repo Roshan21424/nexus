@@ -1,7 +1,9 @@
 package com.MallareddyCollegeOfTechnology.app.Entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
@@ -13,13 +15,13 @@ public class Subject {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name; // e.g., Mathematics, Physics, etc.
+    private String name;
 
     @ManyToOne
     @JoinColumn(name = "teacher_id")
-    private Teacher teacher; // taught by one teacher
+    private Teacher teacher;
 
     @ManyToOne
     @JoinColumn(name = "section_id")
-    private Section section; // belongs to one section
+    private Section section;
 }

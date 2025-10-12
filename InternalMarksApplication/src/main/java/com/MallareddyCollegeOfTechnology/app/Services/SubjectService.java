@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class SubjectService {
@@ -41,6 +43,7 @@ public class SubjectService {
         Section section = sectionRepository.findBySectionEnum(sectionEnum);
         return section != null ? subjectRepository.findBySection(section) : List.of();
     }
+
 
     public Subject getSubjectByNameInSection(String name, Section.SectionEnum sectionEnum) {
         Section section = sectionRepository.findBySectionEnum(sectionEnum);
