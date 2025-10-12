@@ -10,7 +10,6 @@ import java.util.List;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
-    List<Student> findBySection(Section section);
-    List<Student> findBySection_SectionEnum(Enum<?> sectionEnum);
+//    List<Student> findBySection_SectionEnum(Enum<?> sectionEnum);
     List<Student> findByStudentRole(Student.StudentRole role);
 }

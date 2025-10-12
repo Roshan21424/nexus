@@ -21,7 +21,7 @@ public class WorkStation {
     private Long id; //(column) id of workstation
 
     @OneToOne
-    @JoinColumn(name = "profile_id", referencedColumnName = "id")
+    @JoinColumn(name = "section_id", referencedColumnName = "id")
     private Section section; //(column) reference to section id
 
     @OneToMany(mappedBy = "workStation")

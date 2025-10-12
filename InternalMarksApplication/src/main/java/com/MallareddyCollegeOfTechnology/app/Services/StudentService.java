@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class StudentService {
@@ -31,10 +32,10 @@ public class StudentService {
         return studentRepository.findById(id).orElse(null);
     }
 
-    public List<Student> getStudentsBySectionEnum(Section.SectionEnum sectionEnum) {
-        Section section = sectionRepository.findBySectionEnum(sectionEnum);
-        return studentRepository.findBySection(section);
-    }
+//    public List<Student> getStudentsBySectionEnum(Section.SectionEnum sectionEnum) {
+//        Section section = sectionRepository.findBySectionEnum(sectionEnum);
+//        return studentRepository.findBySection(section);
+//    }
 
     public List<Student> getStudentsByRole(Student.StudentRole role) {
         return studentRepository.findByStudentRole(role);
@@ -48,11 +49,10 @@ public class StudentService {
         Section section = sectionRepository.findById(sectionId)
                 .orElseThrow(() -> new RuntimeException("Section not found"));
 
-        // Set owning side
-        student.setSection(section);
 
-        // Save only the owning side
-        studentRepository.save(student);
+
+       section.getStudents().add(student);
+       sectionRepository.save(section);
     }
 
 

@@ -24,7 +24,8 @@ public class Section {
     private int year;
     private String sectionLabel; // e.g., A, B, C
 
-    @OneToMany(mappedBy = "section")
+    @OneToMany
+    @JoinColumn(name = "teacher_id")
     private Set<Student> students;
 
     @OneToOne(mappedBy = "classTeacherOf")

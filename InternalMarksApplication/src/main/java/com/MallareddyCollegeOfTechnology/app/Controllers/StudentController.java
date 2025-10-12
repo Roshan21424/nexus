@@ -38,10 +38,10 @@ public class StudentController {
 
     }
 
-    @GetMapping("/section/{sectionEnum}")
-    public List<Student> getStudentsBySection(@PathVariable Section.SectionEnum sectionEnum) {
-        return studentService.getStudentsBySectionEnum(sectionEnum);
-    }
+//    @GetMapping("/section/{sectionEnum}")
+//    public List<Student> getStudentsBySection(@PathVariable Section.SectionEnum sectionEnum) {
+//        return studentService.getStudentsBySectionEnum(sectionEnum);
+//    }
 
     @GetMapping("/role/{role}")
     public List<Student> getStudentsByRole(@PathVariable Student.StudentRole role) {

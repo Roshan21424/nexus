@@ -11,9 +11,6 @@ import lombok.*;
 @EqualsAndHashCode(callSuper = true)
 public class Student extends User {
 
-    @ManyToOne
-    @JsonBackReference
-    private Section section;
 
     @Enumerated(EnumType.STRING)
     private StudentRole studentRole; //role of the student
