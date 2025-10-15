@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface WorkStationRepository extends JpaRepository<WorkStation, Long> {
-
+    WorkStation findBySection_Id(Long sectionId);
 }
