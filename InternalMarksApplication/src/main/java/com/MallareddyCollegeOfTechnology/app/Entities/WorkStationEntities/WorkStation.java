@@ -3,6 +3,8 @@ package com.MallareddyCollegeOfTechnology.app.Entities.WorkStationEntities;
 import com.MallareddyCollegeOfTechnology.app.Entities.Section;
 import com.MallareddyCollegeOfTechnology.app.Entities.WorkStationEntities.DailyTasksAndRemainders.DailyRemainder;
 import com.MallareddyCollegeOfTechnology.app.Entities.WorkStationEntities.DailyTasksAndRemainders.DailyTask;
+import com.MallareddyCollegeOfTechnology.app.Entities.WorkStationEntities.ScheduledTasksAndRemainder.ScheduledRemainder;
+import com.MallareddyCollegeOfTechnology.app.Entities.WorkStationEntities.ScheduledTasksAndRemainder.ScheduledTask;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.Set;
@@ -29,5 +31,12 @@ public class WorkStation {
 
     @OneToMany(mappedBy = "workStation")
     private Set<DailyTask> dailyTasks; //daily tasks of the workstation
+
+    @OneToMany(mappedBy = "workStation")
+    private Set<ScheduledTask> ScheduledTask; //daily remainders of the workstation
+
+    @OneToMany(mappedBy = "workStation")
+    private Set<ScheduledRemainder> ScheduledRemainders; //daily tasks of the workstation
+
 
 }

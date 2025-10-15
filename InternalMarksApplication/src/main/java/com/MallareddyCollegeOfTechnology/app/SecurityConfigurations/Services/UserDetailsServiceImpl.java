@@ -2,7 +2,6 @@ package com.MallareddyCollegeOfTechnology.app.SecurityConfigurations.Services;
 
 import com.MallareddyCollegeOfTechnology.app.Entities.User;
 import com.MallareddyCollegeOfTechnology.app.Repositories.UserRepository;
-import com.MallareddyCollegeOfTechnology.app.SecurityConfigurations.Entities.SpringUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

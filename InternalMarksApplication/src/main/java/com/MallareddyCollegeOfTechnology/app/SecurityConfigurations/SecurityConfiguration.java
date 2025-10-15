@@ -57,6 +57,9 @@ public class SecurityConfiguration {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 
+
+       http.cors(withDefaults());
+
         /* defining csrf configuration */
         http.csrf( //Enables and configure csrf
                 csrf->csrf

@@ -1,5 +1,6 @@
 package com.MallareddyCollegeOfTechnology.app.Controllers.WorkStationControllers;
 
+import com.MallareddyCollegeOfTechnology.app.Controllers.WorkStationControllers.WorkStationDTOs.WorkStationDTO;
 import com.MallareddyCollegeOfTechnology.app.Entities.WorkStationEntities.DailyTasksAndRemainders.DailyRemainder;
 import com.MallareddyCollegeOfTechnology.app.Entities.WorkStationEntities.DailyTasksAndRemainders.DailyTask;
 import com.MallareddyCollegeOfTechnology.app.Entities.WorkStationEntities.WorkStation;
@@ -36,6 +37,11 @@ public class WorkStationController {
     workStationService.addDailyTask(dailyTask,workStationId,teacherId,studentsId);
 
     return "done";
+  }
+
+  @GetMapping("/get-workstation/{workStationId}")
+  private WorkStationDTO getSectionWorkstation(@PathVariable Long workStationId){
+    return workStationService.getWorkStation(workStationId);
   }
 
 
