@@ -15,8 +15,8 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 public class Teacher extends User {
 
-    @OneToOne
-    private Section classTeacherOf; // Class teacher for one section
+    @OneToOne //bi(own)
+    private Section classTeacherOf; //(column) Class teacher for one section
 
     @ManyToMany
     @JoinTable(

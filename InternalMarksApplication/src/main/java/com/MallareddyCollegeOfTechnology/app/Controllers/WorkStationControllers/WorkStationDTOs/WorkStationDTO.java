@@ -14,9 +14,11 @@ public class WorkStationDTO {
 
     private Long id;
     private String sectionName;
-    private List<DailyRemainderDTO> dailyRemainders;
-    private List<DailyTaskDTO> dailyTasks;
-    private List<ScheduledTaskDTO> scheduledTasks;
-    private List<ScheduledRemainderDTO> scheduledRemainders;
+
+    private List<GroupedRemainderDTO> today_remainder;
+    private List<GroupedTaskDTO> today_task;
+
+    private List<GroupedRemainderDTO> scheduled_remainder;
+    private List<GroupedTaskDTO> scheduled_task;
 
 }

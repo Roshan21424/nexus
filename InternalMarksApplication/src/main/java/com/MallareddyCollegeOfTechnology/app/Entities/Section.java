@@ -1,6 +1,5 @@
 package com.MallareddyCollegeOfTechnology.app.Entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,35 +10,42 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Section {
+public class    Section {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; //(column) id of the section
 
     @Enumerated(EnumType.STRING)
     @Column(unique = true, nullable = false)
-    private SectionEnum sectionEnum;
+    private SectionEnum sectionEnum; //(column) section name
 
-    private String branchName;
-    private int year;
-    private String sectionLabel; // e.g., A, B, C
+    @OneToOne(mappedBy = "classTeacherOf") //bi (not own)
+    private Teacher classTeacher;//class teacher of the section
 
-    @OneToMany
+    @OneToMany //uni (own)
     @JoinColumn(name = "teacher_id")
-    private Set<Student> students;
+    private Set<Student> students;//(column) students of the section
 
-    @OneToOne(mappedBy = "classTeacherOf")
-    private Teacher classTeacher;
 
-    @OneToMany(mappedBy = "section")
-    private Set<Subject> subjects;
+    @OneToMany(mappedBy = "section")//bi(not own)
+    private Set<Subject> subjects; //subjects of the section
+
+    @Lob
+    @Column(columnDefinition = "TEXT")
+    private String events; // store JSON string directly
+
 
     public enum SectionEnum {
         CSE_2025_A,
         CSE_2025_B,
         ECE_2025_A,
-        MECH_2025_A
-        // You can expand this enum with unique representations
+        MECH_2025_A;
     }
+
+
+    //will be removed later
+    private String branchName;
+    private int year;
+    private String sectionLabel;
 }

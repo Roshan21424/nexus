@@ -64,12 +64,12 @@ public class SecurityConfiguration {
         http.csrf( //Enables and configure csrf
                 csrf->csrf
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) //store csrf token in cookie and do not allow js in client side to read
-                        .ignoringRequestMatchers("/auth/**")); //ignore public urls
+                        .ignoringRequestMatchers("/auth/**","/admin/**")); //ignore public urls
 
         /* defining authentication rules */
         http.authorizeHttpRequests( //apply authorisation rules
                 requests -> requests
-                        .requestMatchers("/auth/**") //if request matches this url
+                        .requestMatchers("/auth/**","/admin/**") //if request matches this url
                         .permitAll() //then permit them all
                         .anyRequest() //if any other request
                         .authenticated()); //then authenticate them

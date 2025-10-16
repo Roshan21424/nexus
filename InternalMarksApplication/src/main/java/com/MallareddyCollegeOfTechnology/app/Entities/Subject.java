@@ -19,9 +19,9 @@ public class Subject {
 
     @ManyToOne
     @JoinColumn(name = "teacher_id")
-    private Teacher teacher;
+    private Teacher teacher; //teacher of the subject
 
-    @ManyToOne
+    @ManyToOne //bi(own)
     @JoinColumn(name = "section_id")
-    private Section section;
+    private Section section;//section of the subject
 }

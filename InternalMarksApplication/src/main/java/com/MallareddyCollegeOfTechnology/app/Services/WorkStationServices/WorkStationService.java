@@ -20,8 +20,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class WorkStationService {
@@ -133,73 +132,73 @@ public class WorkStationService {
 
 
 
-    public WorkStationDTO getWorkStation(Long sectionId) {
-        System.out.println(1);
-
-        // Get the workstation from section id
-        WorkStation workStation = workStationRepository.findBySection_Id(sectionId);
-        if (workStation == null) {
-            throw new RuntimeException("WorkStation not found for sectionId: " + sectionId);
-        }
-
-        System.out.println(2);
-
-        // Fetch DailyRemainders directly from repository (Option B)
-        List<DailyRemainder> dailyRemainders = dailyRemainderRepository.findByWorkStationId(workStation.getId());
-        if (dailyRemainders.isEmpty()) {
-            System.out.println("No daily remainders found for this workstation.");
-        } else {
-            dailyRemainders.forEach(dr -> {
-                System.out.println("ID: " + dr.getId());
-                System.out.println("Description: " + dr.getDescription());
-                System.out.println("For All: " + dr.isForAll());
-                System.out.println("Creation Time: " + dr.getCreationTime());
-                if (dr.getTeacher() != null) {
-                    System.out.println("Teacher: " + dr.getTeacher().getName());
-                }
-                if (dr.getStudents() != null && !dr.getStudents().isEmpty()) {
-                    System.out.print("Students: ");
-                    dr.getStudents().forEach(student -> System.out.print(student.getName() + ", "));
-                    System.out.println();
-                }
-                System.out.println("---------------------------");
-            });
-        }
-
-        // Fetch the other sets from workstation (still lazy, but usually fine)
-        List<DailyTask> dailyTasks = dailyTaskRepository.findByWorkStationId(workStation.getId());
-        List<ScheduledRemainder> scheduledRemainders = scheduledRemaindersRepository.findByWorkStationId(workStation.getId());
-        List<ScheduledTask> scheduledTasks = scheduledTasksRepository.findByWorkStationId(workStation.getId());
-
-        System.out.println(3);
-
-        // Convert to DTOs
-        List<DailyRemainderDTO> dailyRemaindersList = dailyRemainders.stream()
-                .map(this::mapToDailyRemainderDTO)
-                .toList();
-        List<DailyTaskDTO> dailyTasksList = dailyTasks.stream()
-                .map(this::mapToDailyTaskDTO)
-                .toList();
-        List<ScheduledRemainderDTO> scheduledRemaindersList = scheduledRemainders.stream()
-                .map(this::mapToScheduledRemainderDTO)
-                .toList();
-        List<ScheduledTaskDTO> scheduledTasksList = scheduledTasks.stream()
-                .map(this::mapToScheduledTaskDTO)
-                .toList();
-
-        System.out.println(4);
-
-        // Create WorkStationDTO
-        WorkStationDTO dto = new WorkStationDTO();
-        dto.setId(workStation.getId());
-        dto.setSectionName(workStation.getSection().getBranchName());
-        dto.setDailyRemainders(dailyRemaindersList);
-        dto.setDailyTasks(dailyTasksList);
-        dto.setScheduledRemainders(scheduledRemaindersList);
-        dto.setScheduledTasks(scheduledTasksList);
-
-        return dto;
-    }
+//    public WorkStationDTO getWorkStation(Long sectionId) {
+//        System.out.println(1);
+//
+//        // Get the workstation from section id
+//        WorkStation workStation = workStationRepository.findBySection_Id(sectionId);
+//        if (workStation == null) {
+//            throw new RuntimeException("WorkStation not found for sectionId: " + sectionId);
+//        }
+//
+//        System.out.println(2);
+//
+//        // Fetch DailyRemainders directly from repository (Option B)
+//        List<DailyRemainder> dailyRemainders = dailyRemainderRepository.findByWorkStationId(workStation.getId());
+//        if (dailyRemainders.isEmpty()) {
+//            System.out.println("No daily remainders found for this workstation.");
+//        } else {
+//            dailyRemainders.forEach(dr -> {
+//                System.out.println("ID: " + dr.getId());
+//                System.out.println("Description: " + dr.getDescription());
+//                System.out.println("For All: " + dr.isForAll());
+//                System.out.println("Creation Time: " + dr.getCreationTime());
+//                if (dr.getTeacher() != null) {
+//                    System.out.println("Teacher: " + dr.getTeacher().getName());
+//                }
+//                if (dr.getStudents() != null && !dr.getStudents().isEmpty()) {
+//                    System.out.print("Students: ");
+//                    dr.getStudents().forEach(student -> System.out.print(student.getName() + ", "));
+//                    System.out.println();
+//                }
+//                System.out.println("---------------------------");
+//            });
+//        }
+//
+//        // Fetch the other sets from workstation (still lazy, but usually fine)
+//        List<DailyTask> dailyTasks = dailyTaskRepository.findByWorkStationId(workStation.getId());
+//        List<ScheduledRemainder> scheduledRemainders = scheduledRemaindersRepository.findByWorkStationId(workStation.getId());
+//        List<ScheduledTask> scheduledTasks = scheduledTasksRepository.findByWorkStationId(workStation.getId());
+//
+//        System.out.println(3);
+//
+//        // Convert to DTOs
+//        List<DailyRemainderDTO> dailyRemaindersList = dailyRemainders.stream()
+//                .map(this::mapToDailyRemainderDTO)
+//                .toList();
+//        List<DailyTaskDTO> dailyTasksList = dailyTasks.stream()
+//                .map(this::mapToDailyTaskDTO)
+//                .toList();
+//        List<ScheduledRemainderDTO> scheduledRemaindersList = scheduledRemainders.stream()
+//                .map(this::mapToScheduledRemainderDTO)
+//                .toList();
+//        List<ScheduledTaskDTO> scheduledTasksList = scheduledTasks.stream()
+//                .map(this::mapToScheduledTaskDTO)
+//                .toList();
+//
+//        System.out.println(4);
+//
+//        // Create WorkStationDTO
+//        WorkStationDTO dto = new WorkStationDTO();
+//        dto.setId(workStation.getId());
+//        dto.setSectionName(workStation.getSection().getBranchName());
+//        dto.setDailyRemainders(dailyRemaindersList);
+//        dto.setDailyTasks(dailyTasksList);
+//        dto.setScheduledRemainders(scheduledRemaindersList);
+//        dto.setScheduledTasks(scheduledTasksList);
+//
+//        return dto;
+//    }
 
 
 
@@ -268,6 +267,147 @@ public class WorkStationService {
 
 
 
+    public WorkStationDTO getWorkStation(Long sectionId) {
+        WorkStation workStation = workStationRepository.findBySection_Id(sectionId);
+        if (workStation == null) {
+            throw new RuntimeException("WorkStation not found for sectionId: " + sectionId);
+        }
+
+        List<DailyRemainder> dailyRemainders = dailyRemainderRepository.findByWorkStationId(workStation.getId());
+        List<DailyTask> dailyTasks = dailyTaskRepository.findByWorkStationId(workStation.getId());
+        List<ScheduledRemainder> scheduledRemainders = scheduledRemaindersRepository.findByWorkStationId(workStation.getId());
+        List<ScheduledTask> scheduledTasks = scheduledTasksRepository.findByWorkStationId(workStation.getId());
+
+        // Group all
+        List<GroupedRemainderDTO> groupedDailyRemainders = groupRemainders(dailyRemainders);
+        List<GroupedTaskDTO> groupedDailyTasks = groupTasks(dailyTasks);
+        List<GroupedRemainderDTO> groupedScheduledRemainders = groupScheduledRemainders(scheduledRemainders);
+        List<GroupedTaskDTO> groupedScheduledTasks = groupScheduledTasks(scheduledTasks);
+
+        WorkStationDTO dto = new WorkStationDTO();
+        dto.setId(workStation.getId());
+        dto.setSectionName(workStation.getSection().getBranchName());
+        dto.setToday_remainder(groupedDailyRemainders);
+        dto.setToday_task(groupedDailyTasks);
+        dto.setScheduled_remainder(groupedScheduledRemainders);
+        dto.setScheduled_task(groupedScheduledTasks);
+
+        return dto;
+    }
+
+    // ---------------- Grouping Logic ----------------
+
+    private List<GroupedRemainderDTO> groupRemainders(List<DailyRemainder> remainders) {
+        Map<String, Map<String, List<String>>> grouped = new LinkedHashMap<>();
+
+        for (DailyRemainder dr : remainders) {
+            String teacher = dr.getTeacher() != null ? dr.getTeacher().getName() : "Unknown";
+            List<String> recipients = dr.isForAll()
+                    ? List.of("ALL")
+                    : dr.getStudents().stream().map(Student::getName).toList();
+
+            for (String to : recipients) {
+                grouped.putIfAbsent(to, new LinkedHashMap<>());
+                grouped.get(to).putIfAbsent(teacher, new ArrayList<>());
+                grouped.get(to).get(teacher).add(dr.getDescription());
+            }
+        }
+
+        return grouped.entrySet().stream()
+                .map(entry -> new GroupedRemainderDTO(
+                        entry.getKey(),
+                        entry.getValue().entrySet().stream()
+                                .map(inner -> new AssignerRemainderDTO(inner.getKey(),
+                                        inner.getKey().equalsIgnoreCase("you"),
+                                        inner.getValue()))
+                                .toList()
+                ))
+                .toList();
+    }
+
+    private List<GroupedTaskDTO> groupTasks(List<DailyTask> tasks) {
+        Map<String, Map<String, List<TaskContextDTO>>> grouped = new LinkedHashMap<>();
+
+        for (DailyTask dt : tasks) {
+            String teacher = dt.getTeacher() != null ? dt.getTeacher().getName() : "Unknown";
+            List<String> recipients = dt.isForAll()
+                    ? List.of("ALL")
+                    : dt.getStudents().stream().map(Student::getName).toList();
+
+            for (String to : recipients) {
+                grouped.putIfAbsent(to, new LinkedHashMap<>());
+                grouped.get(to).putIfAbsent(teacher, new ArrayList<>());
+                grouped.get(to).get(teacher).add(new TaskContextDTO(dt.getDescription(), dt.getStatus()));
+            }
+        }
+
+        return grouped.entrySet().stream()
+                .map(entry -> new GroupedTaskDTO(
+                        entry.getKey(),
+                        entry.getValue().entrySet().stream()
+                                .map(inner -> new AssignerTaskDTO(inner.getKey(),
+                                        inner.getKey().equalsIgnoreCase("you"),
+                                        inner.getValue()))
+                                .toList()
+                ))
+                .toList();
+    }
+
+    private List<GroupedRemainderDTO> groupScheduledRemainders(List<ScheduledRemainder> remainders) {
+        Map<String, Map<String, List<String>>> grouped = new LinkedHashMap<>();
+
+        for (ScheduledRemainder sr : remainders) {
+            String teacher = sr.getTeacher() != null ? sr.getTeacher().getName() : "Unknown";
+            List<String> recipients = sr.isForAll()
+                    ? List.of("ALL")
+                    : sr.getStudents().stream().map(Student::getName).toList();
+
+            for (String to : recipients) {
+                grouped.putIfAbsent(to, new LinkedHashMap<>());
+                grouped.get(to).putIfAbsent(teacher, new ArrayList<>());
+                grouped.get(to).get(teacher).add(sr.getDescription());
+            }
+        }
+
+        return grouped.entrySet().stream()
+                .map(entry -> new GroupedRemainderDTO(
+                        entry.getKey(),
+                        entry.getValue().entrySet().stream()
+                                .map(inner -> new AssignerRemainderDTO(inner.getKey(),
+                                        inner.getKey().equalsIgnoreCase("you"),
+                                        inner.getValue()))
+                                .toList()
+                ))
+                .toList();
+    }
+
+    private List<GroupedTaskDTO> groupScheduledTasks(List<ScheduledTask> tasks) {
+        Map<String, Map<String, List<TaskContextDTO>>> grouped = new LinkedHashMap<>();
+
+        for (ScheduledTask st : tasks) {
+            String teacher = st.getTeacher() != null ? st.getTeacher().getName() : "Unknown";
+            List<String> recipients = st.isForAll()
+                    ? List.of("ALL")
+                    : st.getStudents().stream().map(Student::getName).toList();
+
+            for (String to : recipients) {
+                grouped.putIfAbsent(to, new LinkedHashMap<>());
+                grouped.get(to).putIfAbsent(teacher, new ArrayList<>());
+                grouped.get(to).get(teacher).add(new TaskContextDTO(st.getDescription(), st.getStatus()));
+            }
+        }
+
+        return grouped.entrySet().stream()
+                .map(entry -> new GroupedTaskDTO(
+                        entry.getKey(),
+                        entry.getValue().entrySet().stream()
+                                .map(inner -> new AssignerTaskDTO(inner.getKey(),
+                                        inner.getKey().equalsIgnoreCase("you"),
+                                        inner.getValue()))
+                                .toList()
+                ))
+                .toList();
+    }
 
 
 
