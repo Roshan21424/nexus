@@ -6,12 +6,16 @@ import com.MallareddyCollegeOfTechnology.app.Controllers.ClassController.DTOs.Ge
 import com.MallareddyCollegeOfTechnology.app.Controllers.ClassController.DTOs.StudentDTO;
 import com.MallareddyCollegeOfTechnology.app.Controllers.ClassController.DTOs.SubjectDTO;
 import com.MallareddyCollegeOfTechnology.app.Entities.*;
+import com.MallareddyCollegeOfTechnology.app.Entities.ClassRepositoryEntities.ClassRepositoryFile;
 import com.MallareddyCollegeOfTechnology.app.Repositories.*;
 import com.MallareddyCollegeOfTechnology.app.SecurityConfigurations.Services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashSet;
 import java.util.List;
 
@@ -32,6 +36,9 @@ public class AdminController {
 
     @Autowired
     private SectionRepository sectionRepository;
+
+    @Autowired
+    private ClassRepositoryFileRepository classRepositoryFileRepository;
 
     @PostMapping("/create-student")
     private Student createTeacher(@RequestParam String name, @RequestParam String password){
@@ -107,6 +114,8 @@ public class AdminController {
         getClassDTO.setStudentDTOList(studentDTOS);//setting the students
         getClassDTO.setSubjectDTOList(subjectDTOs);//setting the subjects
         getClassDTO.setEvents(section.getEvents());//setting the subjects
+        getClassDTO.setTimetableImageBase64(section.getTimetableImageBase64());
+
 
         return getClassDTO;
 //        }
@@ -142,5 +151,31 @@ public class AdminController {
         return "done";
     }
 
+    @PostMapping("/add-repository")
+    private String createRepository(@RequestBody ClassRepositoryFile classRepositoryFile,@RequestParam Long sectionId){
+        Section section =sectionRepository.findById(sectionId).orElseThrow(()->new RuntimeException("section not found"));
+
+        classRepositoryFile.setSection(section);
+        classRepositoryFileRepository.save(classRepositoryFile);
+        return "done";
+    }
+
+    @PostMapping("/get-repository")
+    private List<ClassRepositoryFile> getRepository(@RequestParam Long sectionId){
+        return classRepositoryFileRepository.findBySection_Id(sectionId);
+    }
+
+    @PostMapping("/add-timetable/{sectionId}")
+    private String addTimeTable(   @PathVariable Long sectionId,
+                                   @RequestParam("file") MultipartFile file) throws IOException {
+    System.out.println("section is:"+sectionId);
+     Section section =  sectionRepository.findById(sectionId).orElseThrow(()->new RuntimeException("section not found"));
+        String base64Image = "data:" + file.getContentType() + ";base64," +
+                Base64.getEncoder().encodeToString(file.getBytes());
+
+        section.setTimetableImageBase64(base64Image);
+        sectionRepository.save(section);
+        return "done";
+    }
 
 }

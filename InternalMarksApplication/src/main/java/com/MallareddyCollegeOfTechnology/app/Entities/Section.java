@@ -36,6 +36,14 @@ public class    Section {
     private String events; // store JSON string directly
 
 
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
+    private String timetableImageBase64; // stores base64 image data
+
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
+    private String semesterScheduleImageBase64; // stores base64 image data
+
     public enum SectionEnum {
         CSE_2025_A,
         CSE_2025_B,

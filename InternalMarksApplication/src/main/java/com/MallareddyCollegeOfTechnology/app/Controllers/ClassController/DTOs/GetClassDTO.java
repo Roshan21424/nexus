@@ -18,4 +18,5 @@ public class GetClassDTO {
     private List<StudentDTO> StudentDTOList;
     private List<SubjectDTO> subjectDTOList;
     private String events;
+    private String timetableImageBase64;
 }
